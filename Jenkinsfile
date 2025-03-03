@@ -6,7 +6,8 @@ pipeline {
     }
 
     environment {
-        MAVEN_HOME = tool 'Maven 3' // Ensure you have Maven configured in Jenkins
+        MAVEN_HOME = "/opt/homebrew/opt/maven"
+        PATH = "$MAVEN_HOME/bin:$PATH"
     }
 
     stages {
@@ -18,19 +19,19 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn clean install'
+                sh '$MAVEN_HOME/bin/mvn clean install'
             }
         }
 
         stage('Run Tests & Code Coverage') {
             steps {
-                sh 'mvn test'
+                sh '$MAVEN_HOME/bin/mvn test'
             }
         }
 
         stage('Generate Jacoco Report') {
             steps {
-                sh 'mvn jacoco:report'
+                sh '$MAVEN_HOME/bin/mvn jacoco:report'
             }
         }
 
